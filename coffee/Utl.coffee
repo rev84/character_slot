@@ -10,7 +10,6 @@ class Utl
   @numFormat:(num)->
     String(num).replace /(\d)(?=(\d\d\d)+(?!\d))/g, '$1,'
 
-
   ############################################
   # 
   # min <= n <= max の整数乱数を生成
@@ -65,7 +64,6 @@ class Utl
   @time:(date = null)->
     date = new Date() if date is null
     Math.floor(+date/1000)
-
 
   ############################################
   # 
@@ -236,11 +234,12 @@ class Utl
   # @return Array
   # 
   ############################################
-  @clone:(ary)->
-    res = []
-    for v, k in ary
-      res[k] = v
-    res
+  @clone:(obj)->
+    if $.isArray obj
+      $.extend true, [], obj
+    else if obj instanceof Object
+      $.extend true, {}, obj
+    obj
 
 
   ############################################
@@ -255,7 +254,7 @@ class Utl
   @arrayFill:(length, val = null)->
     res = []
     for i in [0...length]
-      res[i] = val
+      res[i] = @clone val
     res
 
 
@@ -274,7 +273,7 @@ class Utl
     res = []
     yAry = []
     for yy in [0...y]
-      yAry[yy] = val
+      yAry[yy] = @clone val
     for xx in [0...x]
       res[xx] = @clone yAry
     res
@@ -299,7 +298,7 @@ class Utl
   # @return String
   # 
   ############################################
-  @uuid:()->
+  @uuid4:()->
     uuid = ''
     for i in [0...32]
       random = Math.random() * 16 | 0;
@@ -307,3 +306,46 @@ class Utl
       uuid += (if i is 12 then 4 else (if i is 16 then random & 3 | 8 else random)).toString(16);
     uuid
 
+  ############################################
+  # 
+  # ローカルストレージの値を削除
+  # 
+  # @param String key
+  # @param mixed value
+  # @return undefined
+  # 
+  ############################################
+  @delLs:(key)->
+    localStorage.removeItem key
+
+  ############################################
+  # 
+  # ローカルストレージに値を設定
+  # 
+  # @param String key
+  # @param mixed value
+  # @return undefined
+  # 
+  ############################################
+  @setLs:(key, value = null)->
+    # null は削除
+    return @delLs key if value is null
+
+    json = JSON.stringify value
+    localStorage.setItem key, json
+
+  ############################################
+  # 
+  # ローカルストレージから値を取得
+  # 
+  # @param String key
+  # @return undefined
+  # 
+  ############################################
+  @getLs:(key)->
+    res = localStorage.getItem key
+    try
+      res = JSON.parse res
+    catch
+      res = null
+    res
