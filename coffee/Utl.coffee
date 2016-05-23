@@ -1,49 +1,80 @@
 class Utl
   ############################################
-  # 
+  #
   # 数値にカンマを入れる
-  # 
+  #
   # @param Number num
-  # @return String 
-  # 
+  # @return String
+  #
   ############################################
   @numFormat:(num)->
     String(num).replace /(\d)(?=(\d\d\d)+(?!\d))/g, '$1,'
 
   ############################################
-  # 
+  #
   # min <= n <= max の整数乱数を生成
-  # 
+  #
   # @param Number min
   # @param Number max
-  # @return String 
-  # 
+  # @return String
+  #
   ############################################
   @rand:(min, max)->
     Math.floor(Math.random() * (max - min + 1)) + min
 
+  ############################################
+  #
+  # length 文字のランダムな文字列を生成
+  #
+  # @param Number length
+  # @return String
+  #
+  ############################################
+  @genPassword:(length = 4)->
+    chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+    res = ''
+    res += chars.substr(@rand(0, chars.length-1), 1) for i in [0...length]
+    res
 
   ############################################
-  # 
+  #
   # アドレスバーを変更
-  # 
+  #
   # @param String url
-  # @return String 
-  # 
+  # @return String
+  #
   ############################################
   @adrBar:(url)->
     window.history.replaceState '','',''+url
 
 
   ############################################
-  # 
+  #
+  # getクエリを取得
+  #
+  # @return Object
+  #
+  ############################################
+  @getQuery:(key = null, defaultValue = null)->
+    query = document.location.search.substring(1)
+    params = query.split('&')
+    res = {}
+    for p in params
+      [k, v] = p.split('=')
+      res[k] = v
+    return res if key is null
+    return res[key] if res[key]?
+    defaultValue
+
+  ############################################
+  #
   # 数値を min <= num < max の範囲で正規化する
-  # 
+  #
   # @param Number num
   # @param Number min
   # @param Number max
-  # @return String 
-  # 
+  # @return String
+  #
   ############################################
   @normalize:(num, min = 0, max = 1)->
     range = Math.abs(max - min)
@@ -55,22 +86,22 @@ class Utl
 
 
   ############################################
-  # 
+  #
   # 現在秒を取得
-  # 
+  #
   # @return int
-  # 
+  #
   ############################################
   @time:(date = null)->
     date = new Date() if date is null
     Math.floor(+date/1000)
 
   ############################################
-  # 
+  #
   # 現在ミリ秒を取得
-  # 
+  #
   # @return int/float
-  # 
+  #
   ############################################
   @militime:(date = null, getAsFloat = false)->
     date = new Date() if date is null
@@ -78,13 +109,13 @@ class Utl
 
 
   ############################################
-  # 
+  #
   # 現在日を YYYY-MM-DD で取得
-  # 
+  #
   # @param Date date
   # @param String dateSep 日付のセパレータ
   # @return String
-  # 
+  #
   ############################################
   @dateStr:(date = null, dateSep = '-')->
     date = new Date() if date is null
@@ -92,15 +123,15 @@ class Utl
 
 
   ############################################
-  # 
+  #
   # 現在日時を YYYY-MM-DD HH:ii:ssで取得
-  # 
+  #
   # @param Date date
   # @param String dateSep 日付のセパレータ
   # @param String timeSep 時間のセパレータ
   # @param boolean betweenSep 日付と時間の間の文字
   # @return String
-  # 
+  #
   ############################################
   @datetimeStr:(date = null, dateSep = '-', timeSep = ':', betweenSep = ' ')->
     date = new Date() if date is null
@@ -109,9 +140,9 @@ class Utl
 
 
   ############################################
-  # 
+  #
   # baseDate と targetDate の時刻の差を「何分前」のような表記で取得
-  # 
+  #
   # @param Date targetDate 対象となる日時
   # @param Date baseDate 基準となる日時
   # @param unsigned_int nowSec ついさっき表記する上限の秒数
@@ -123,7 +154,7 @@ class Utl
   # @param String monStr 月の表記
   # @param String yearStr 年の表記
   # @return String
-  # 
+  #
   ############################################
   @difftime:(targetDate, baseDate = null, nowSec = 0, nowStr = 'ついさっき', agoStr = '前', secStr = '秒', minStr = '分', hourStr = '時間', dayStr = '日', monStr = '月', yearStr = '年')->
     baseTime = @time() if baseDate is null
@@ -169,38 +200,38 @@ class Utl
 
 
   ############################################
-  # 
+  #
   # 数値をゼロ埋めする
-  # 
+  #
   # @param int num
   # @param int digit 桁数
   # @return int
-  # 
+  #
   ############################################
   @zerofill:(num, digit)->
     (''+@repeat('0', digit)+num).slice -digit
 
 
   ############################################
-  # 
+  #
   # str を times 回繰り返した文字列を返す
-  # 
+  #
   # @param String str
   # @param int times
   # @return String
-  # 
+  #
   ############################################
   @repeat:(str, times)->
     Array(1+times).join str
 
 
   ############################################
-  # 
+  #
   # 配列をシャッフル
-  # 
+  #
   # @param Array ary シャッフルする配列
   # @return Array
-  # 
+  #
   ############################################
   @shuffle:(ary)->
     n = ary.length
@@ -212,13 +243,13 @@ class Utl
 
 
   ############################################
-  # 
+  #
   # 配列 ary に needle が存在するかを調べる
-  # 
+  #
   # @param mixed needle 値
   # @param Array ary
   # @return boolean 存在する場合はtrue, そうでないなら false
-  # 
+  #
   ############################################
   @inArray:(needle, ary)->
     for v in ary
@@ -227,12 +258,12 @@ class Utl
 
 
   ############################################
-  # 
+  #
   # 配列のコピーを返す
-  # 
+  #
   # @param Array ary
   # @return Array
-  # 
+  #
   ############################################
   @clone:(obj)->
     if $.isArray obj
@@ -243,13 +274,13 @@ class Utl
 
 
   ############################################
-  # 
+  #
   # 長さ length の配列を val で満たして返す
-  # 
+  #
   # @param int length
   # @param mixed val
   # @return Array
-  # 
+  #
   ############################################
   @arrayFill:(length, val = null)->
     res = []
@@ -259,14 +290,14 @@ class Utl
 
 
   ############################################
-  # 
+  #
   # x * y の配列を val で満たして返す
-  # 
+  #
   # @param int x
   # @param int y 省略時は x と同じ長さ
   # @param mixed val
   # @return Array
-  # 
+  #
   ############################################
   @array2dFill:(x, y = null, val = null)->
     y = x if y is null
@@ -280,23 +311,23 @@ class Utl
 
 
   ############################################
-  # 
+  #
   # 連想配列のキーの数を返す
-  # 
+  #
   # @param Object object
   # @return int
-  # 
+  #
   ############################################
   @count:(object)->
     Object.keys(object).length
 
 
   ############################################
-  # 
+  #
   # uuid を生成（バージョン4）
-  # 
+  #
   # @return String
-  # 
+  #
   ############################################
   @uuid4:()->
     uuid = ''
@@ -307,25 +338,25 @@ class Utl
     uuid
 
   ############################################
-  # 
+  #
   # ローカルストレージの値を削除
-  # 
+  #
   # @param String key
   # @param mixed value
   # @return undefined
-  # 
+  #
   ############################################
   @delLs:(key)->
     localStorage.removeItem key
 
   ############################################
-  # 
+  #
   # ローカルストレージに値を設定
-  # 
+  #
   # @param String key
   # @param mixed value
   # @return undefined
-  # 
+  #
   ############################################
   @setLs:(key, value = null)->
     # null は削除
@@ -335,12 +366,12 @@ class Utl
     localStorage.setItem key, json
 
   ############################################
-  # 
+  #
   # ローカルストレージから値を取得
-  # 
+  #
   # @param String key
   # @return undefined
-  # 
+  #
   ############################################
   @getLs:(key)->
     res = localStorage.getItem key

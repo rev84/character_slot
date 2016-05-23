@@ -12,8 +12,46 @@ Utl = (function() {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   };
 
+  Utl.genPassword = function(length) {
+    var chars, i, j, ref, res;
+    if (length == null) {
+      length = 4;
+    }
+    chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    res = '';
+    for (i = j = 0, ref = length; 0 <= ref ? j < ref : j > ref; i = 0 <= ref ? ++j : --j) {
+      res += chars.substr(this.rand(0, chars.length - 1), 1);
+    }
+    return res;
+  };
+
   Utl.adrBar = function(url) {
     return window.history.replaceState('', '', '' + url);
+  };
+
+  Utl.getQuery = function(key, defaultValue) {
+    var j, k, len, p, params, query, ref, res, v;
+    if (key == null) {
+      key = null;
+    }
+    if (defaultValue == null) {
+      defaultValue = null;
+    }
+    query = document.location.search.substring(1);
+    params = query.split('&');
+    res = {};
+    for (j = 0, len = params.length; j < len; j++) {
+      p = params[j];
+      ref = p.split('='), k = ref[0], v = ref[1];
+      res[k] = v;
+    }
+    if (key === null) {
+      return res;
+    }
+    if (res[key] != null) {
+      return res[key];
+    }
+    return defaultValue;
   };
 
   Utl.normalize = function(num, min, max) {
@@ -192,14 +230,13 @@ Utl = (function() {
     return false;
   };
 
-  Utl.clone = function(ary) {
-    var j, k, len, res, v;
-    res = [];
-    for (k = j = 0, len = ary.length; j < len; k = ++j) {
-      v = ary[k];
-      res[k] = v;
+  Utl.clone = function(obj) {
+    if ($.isArray(obj)) {
+      $.extend(true, [], obj);
+    } else if (obj instanceof Object) {
+      $.extend(true, {}, obj);
     }
-    return res;
+    return obj;
   };
 
   Utl.arrayFill = function(length, val) {
@@ -209,7 +246,7 @@ Utl = (function() {
     }
     res = [];
     for (i = j = 0, ref = length; 0 <= ref ? j < ref : j > ref; i = 0 <= ref ? ++j : --j) {
-      res[i] = val;
+      res[i] = this.clone(val);
     }
     return res;
   };
@@ -228,7 +265,7 @@ Utl = (function() {
     res = [];
     yAry = [];
     for (yy = j = 0, ref = y; 0 <= ref ? j < ref : j > ref; yy = 0 <= ref ? ++j : --j) {
-      yAry[yy] = val;
+      yAry[yy] = this.clone(val);
     }
     for (xx = l = 0, ref1 = x; 0 <= ref1 ? l < ref1 : l > ref1; xx = 0 <= ref1 ? ++l : --l) {
       res[xx] = this.clone(yAry);
@@ -240,7 +277,7 @@ Utl = (function() {
     return Object.keys(object).length;
   };
 
-  Utl.uuid = function() {
+  Utl.uuid4 = function() {
     var i, j, random, uuid;
     uuid = '';
     for (i = j = 0; j < 32; i = ++j) {
@@ -251,6 +288,33 @@ Utl = (function() {
       uuid += (i === 12 ? 4 : (i === 16 ? random & 3 | 8 : random)).toString(16);
     }
     return uuid;
+  };
+
+  Utl.delLs = function(key) {
+    return localStorage.removeItem(key);
+  };
+
+  Utl.setLs = function(key, value) {
+    var json;
+    if (value == null) {
+      value = null;
+    }
+    if (value === null) {
+      return this.delLs(key);
+    }
+    json = JSON.stringify(value);
+    return localStorage.setItem(key, json);
+  };
+
+  Utl.getLs = function(key) {
+    var error, res;
+    res = localStorage.getItem(key);
+    try {
+      res = JSON.parse(res);
+    } catch (error) {
+      res = null;
+    }
+    return res;
   };
 
   return Utl;
