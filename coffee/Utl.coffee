@@ -266,11 +266,12 @@ class Utl
   #
   ############################################
   @clone:(obj)->
+    res = obj
     if $.isArray obj
-      $.extend true, [], obj
+      res = $.extend true, [], obj
     else if obj instanceof Object
-      $.extend true, {}, obj
-    obj
+      res = $.extend true, {}, obj
+    res
 
 
   ############################################
@@ -308,6 +309,47 @@ class Utl
     for xx in [0...x]
       res[xx] = @clone yAry
     res
+
+  ############################################
+  #
+  # 配列の合計を返す
+  #
+  # @param Array ary
+  # @return Array
+  #
+  ############################################
+  @arraySum:(ary)->
+    sum = 0
+    sum += v for v in ary
+    sum
+
+  ############################################
+  #
+  # 配列の最小値を返す
+  #
+  # @param Array ary
+  # @return Array
+  #
+  ############################################
+  @arrayMin:(ary)->
+    min = null
+    for v in ary
+      min = v if min is null or min > v
+    min
+
+  ############################################
+  #
+  # 配列の最大値を返す
+  #
+  # @param Array ary
+  # @return Array
+  #
+  ############################################
+  @arrayMax:(ary)->
+    max = null
+    for v in ary
+      max = v if max is null or max < v
+    max
 
 
   ############################################

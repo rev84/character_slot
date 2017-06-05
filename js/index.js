@@ -231,12 +231,14 @@ Utl = (function() {
   };
 
   Utl.clone = function(obj) {
+    var res;
+    res = obj;
     if ($.isArray(obj)) {
-      $.extend(true, [], obj);
+      res = $.extend(true, [], obj);
     } else if (obj instanceof Object) {
-      $.extend(true, {}, obj);
+      res = $.extend(true, {}, obj);
     }
-    return obj;
+    return res;
   };
 
   Utl.arrayFill = function(length, val) {
@@ -271,6 +273,40 @@ Utl = (function() {
       res[xx] = this.clone(yAry);
     }
     return res;
+  };
+
+  Utl.arraySum = function(ary) {
+    var j, len, sum, v;
+    sum = 0;
+    for (j = 0, len = ary.length; j < len; j++) {
+      v = ary[j];
+      sum += v;
+    }
+    return sum;
+  };
+
+  Utl.arrayMin = function(ary) {
+    var j, len, min, v;
+    min = null;
+    for (j = 0, len = ary.length; j < len; j++) {
+      v = ary[j];
+      if (min === null || min > v) {
+        min = v;
+      }
+    }
+    return min;
+  };
+
+  Utl.arrayMax = function(ary) {
+    var j, len, max, v;
+    max = null;
+    for (j = 0, len = ary.length; j < len; j++) {
+      v = ary[j];
+      if (max === null || max < v) {
+        max = v;
+      }
+    }
+    return max;
   };
 
   Utl.count = function(object) {

@@ -1,0 +1,7 @@
+.center {
+  text-align:center;
+}
+.text {
+  border:double 1px #000000;
+  max-width:600px;
+}
