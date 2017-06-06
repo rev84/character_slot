@@ -381,6 +381,20 @@ class Utl
 
   ############################################
   #
+  # ツイートする
+  #
+  # @return String
+  #
+  ############################################
+  @tweet:(content, hashTag = null, w = 575, h = 400)->
+    text = encodeURIComponent content+(if hashTag is null then '' else ' #'+hashTag)
+    url = encodeURIComponent location.href
+    accessUrl = 'http://twitter.com/share?url='+url+'&text='+text
+    w = window.open(accessUrl, '', 'scrollbars=yes,Width='+w+',Height='+h)
+    w.focus()
+
+  ############################################
+  #
   # ローカルストレージの値を削除
   #
   # @param String key

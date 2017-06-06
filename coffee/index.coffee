@@ -6,11 +6,17 @@ window.speed =
   who:false
   clothes:false
   serif:false
+window.decided = 
+  who:false
+  clothes:false
+  serif:false
 window.interval = 50
 window.startSpeed = 30
 window.minSpeed = 5
 window.decreaseSpeed = 1
 window.stopTimer = false
+
+
 
 $().ready ->
   window.reels.who.push new Koma('who', '？？？', 0)
@@ -19,6 +25,13 @@ $().ready ->
   move true
   setInterval move, window.interval
   $('#start').on 'click', buttonClick
+  $('#tweet').on 'click', tweet
+
+tweet = ->
+  if window.decided.who is false and window.decided.clothes is false and window.decided.serif is false
+    Utl.tweet '○が△の服を着て□の台詞を言うやつ', 'デレマススロット'
+  else
+    Utl.tweet '「'+window.decided.who+'」が「'+window.decided.clothes+'」の服を着て「'+window.decided.serif+'」の台詞を言う', 'デレマススロット'
 
 buttonClick = ->
   if $(@).html() is 'スタート'
@@ -30,6 +43,10 @@ buttonClick = ->
     window.stopTimer = setInterval stop, window.interval
 
 start = ->
+  window.decided = 
+    who:false
+    clothes:false
+    serif:false
   window.speed.who = window.startSpeed
   window.speed.clothes = window.startSpeed
   window.speed.serif = window.startSpeed
@@ -60,6 +77,7 @@ move = (isForce = false)->
       if window.speed[id] is window.minSpeed and -window.minSpeed <= obj.getY() <= window.minSpeed
         obj.move -obj.getY(), window.interval
         window.speed[id] = false
+        window.decided[id] = obj.getName()
         newObjs.push obj
       else
         obj.move window.speed[id], window.interval
@@ -109,6 +127,9 @@ class Koma
 
   getY:->
     @top
+
+  getName:->
+    @name
 
   deleteElementByPosition:->
     if @top > 85
