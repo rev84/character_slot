@@ -3,8 +3,7 @@
   height:600px;
   background-color:#bff78f;
   position: relative;
-    border: 4px double #ddd;
-
+  border: 4px double #ddd;
 }
 .reel {
   position: absolute;
@@ -57,4 +56,28 @@
 .koma img {
   width:50px;
   height:50px;
+}
+
+#start {
+  position: absolute;
+  bottom:30px;
+  left:225px;
+  width: 150px;
+  display: inline-block;
+  padding: 0.5em 1em;
+  text-decoration: none;
+  border-radius: 4px;
+  color: #ffffff;
+  background-image: -webkit-linear-gradient(45deg, #FFC107 0%, #ff8b5f 100%);
+  background-image: linear-gradient(45deg, #FFC107 0%, #ff8b5f 100%);
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.29);
+  border-bottom: solid 3px #c58668;
+}
+
+#start:active{
+  -ms-transform: translateY(4px);
+  -webkit-transform: translateY(4px);
+  transform: translateY(4px);
+  box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.2);
+  border-bottom: none;
 }

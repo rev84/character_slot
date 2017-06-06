@@ -35,6 +35,7 @@ start = ->
   window.speed.serif = window.startSpeed
 
 stop = ->
+  $('#start').prop("disabled", true)
   if window.speed.who isnt false
     window.speed.who -= window.decreaseSpeed
     window.speed.who = window.minSpeed if window.speed.who <= window.minSpeed
@@ -47,6 +48,7 @@ stop = ->
   else
     clearInterval window.stopTimer
     window.stopTimer = false
+    $('#start').prop("disabled", false)
 
 move = (isForce = false)->
   return false if window.speed.who is false and window.speed.clothes is false and window.speed.serif is false and isForce isnt true

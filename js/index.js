@@ -52,6 +52,7 @@ start = function() {
 };
 
 stop = function() {
+  $('#start').prop("disabled", true);
   if (window.speed.who !== false) {
     window.speed.who -= window.decreaseSpeed;
     if (window.speed.who <= window.minSpeed) {
@@ -69,7 +70,8 @@ stop = function() {
     }
   } else {
     clearInterval(window.stopTimer);
-    return window.stopTimer = false;
+    window.stopTimer = false;
+    return $('#start').prop("disabled", false);
   }
 };
 
