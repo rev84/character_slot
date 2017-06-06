@@ -1,7 +1,60 @@
-.center {
-  text-align:center;
+#slot {
+  width: 600px;
+  height:600px;
+  background-color:#bff78f;
+  position: relative;
+    border: 4px double #ddd;
+
 }
-.text {
-  border:double 1px #000000;
-  max-width:600px;
+.reel {
+  position: absolute;
+  width:500px;
+  height:75px;
+  left:50px;  
+  background-color:#ffffff;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  overflow:hidden;
+}
+.between {
+  position: absolute;
+  width:500px;
+  height:50px;
+  left:50px;  
+  font-size:30px;
+  font-family: "Sawarabi Mincho";
+  font-weight: 700;
+  vertical-align: middle;
+}
+#who {
+  top:100px;
+}
+#clothes {
+  top:225px;
+}
+#serif {
+  top:350px;
+}
+#who_str {
+  top:175px;
+}
+#clothes_str {
+  top:300px;
+}
+#serif_str {
+  top:425px;
+}
+.koma {
+  position:absolute;
+  height:75px;
+  font-family: "Rounded Mplus 1c";
+  font-weight: 700;
+  text-align: center;
+  width:500px;
+  font-size: 40px;
+}
+.koma img {
+  width:50px;
+  height:50px;
 }
