@@ -29,18 +29,19 @@ $().ready ->
 
 tweet = ->
   if window.decided.who is false and window.decided.clothes is false and window.decided.serif is false
-    Utl.tweet '○が△の服を着て□の台詞を言うやつ', 'デレマススロット'
+    Utl.tweet 'アイドルがアイドルの服を着てアイドルの台詞を言うスロット', 'デレマススロット'
   else
     Utl.tweet '「'+window.decided.who+'」が「'+window.decided.clothes+'」の服を着て「'+window.decided.serif+'」の台詞を言う', 'デレマススロット'
 
 buttonClick = ->
-  if $(@).html() is 'スタート'
-    return if window.stopTimer isnt false
-    $(@).html('ストップ')
-    start()
-  else
-    $(@).html('スタート')
-    window.stopTimer = setInterval stop, window.interval
+  return if window.stopTimer isnt false
+  start()
+  setTimeout(
+    ->
+      window.stopTimer = setInterval stop, window.interval
+    1000
+  )
+
 
 start = ->
   window.decided = 
